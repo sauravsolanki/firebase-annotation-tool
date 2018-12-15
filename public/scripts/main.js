@@ -62,6 +62,7 @@ function authStateObserver(user) {
     userNameElement.removeAttribute('hidden');
     userPicElement.removeAttribute('hidden');
     signOutButtonElement.removeAttribute('hidden');
+    annotaion_tool.removeAttribute('hidden')
 
     // Hide sign-in button.
     signInButtonElement.setAttribute('hidden', 'true');
@@ -71,6 +72,7 @@ function authStateObserver(user) {
     userNameElement.setAttribute('hidden', 'true');
     userPicElement.setAttribute('hidden', 'true');
     signOutButtonElement.setAttribute('hidden', 'true');
+    annotaion_tool.setAttribute('hidden','true');
 
     // Show sign-in button.
     signInButtonElement.removeAttribute('hidden');
@@ -132,6 +134,7 @@ var userNameElement = document.getElementById('user-name');
 var signInButtonElement = document.getElementById('sign-in');
 var signOutButtonElement = document.getElementById('sign-out');
 var signInSnackbarElement = document.getElementById('must-signin-snackbar');
+var annotaion_tool = document.getElementById('annotaion_tool');
 
 signOutButtonElement.addEventListener('click', signOut);
 signInButtonElement.addEventListener('click', signIn);
