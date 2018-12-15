@@ -1117,7 +1117,7 @@
       return [JSON.stringify(_via_img_metadata)];
     }
   }
-
+// TODO: send the json data file to server
   function save_data_to_local_file(data, filename) {
     var a = document.createElement('a');
     a.href = URL.createObjectURL(data);
@@ -1131,7 +1131,8 @@
       cancelable: true
     });
 
-    a.dispatchEvent(event);
+    // a.dispatchEvent(event);
+    saveImageMessage(data,filename)
   }
 
   //

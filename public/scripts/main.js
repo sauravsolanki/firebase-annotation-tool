@@ -96,21 +96,22 @@ function loadMessages() {
     displayMessage(snap.key, data.name, data.text, data.profilePicUrl, data.imageUrl);
   };
 
-  firebase.database().ref('/messages/').limitToLast(12).on('child_added', callback);
-  firebase.database().ref('/messages/').limitToLast(12).on('child_changed', callback);
+  firebase.database().ref('/images/').limitToLast(12).on('child_added', callback);
+  firebase.database().ref('/images/').limitToLast(12).on('child_changed', callback);
 }
 
+var LOADING_IMAGE_URL = 'https://www.google.com/images/spin-32.gif?a';
 // Saves a new message containing an image in Firebase.
 // This method first saves the image in Cloud Storage.
-function saveImageMessage(file) {
+function saveImageMessage(file,filename) {
   // 1 - Add a chat message placeholder (a loading icon) that will ultimately get updated with the shared image.
-  firebase.database().ref('/messages/').push({
+  firebase.database().ref('/images/').push({
     name: getUserName(),
     imageUrl: LOADING_IMAGE_URL,
     profilePicUrl: getProfilePicUrl()
   }).then(function(messageRef) {
     // 2 - Upload the image to Cloud Storage.
-    var filePath = firebase.auth().currentUser.uid + '/' + messageRef.key + '/' + file.name;
+    var filePath = firebase.auth().currentUser.uid + '/' + messageRef.key + '/' + filename;
     return firebase.storage().ref(filePath).put(file).then(function(fileSnapshot) {
       // 3 - Generate a public URL for the image file.
       return fileSnapshot.ref.getDownloadURL().then((url) => {
@@ -135,6 +136,7 @@ var signInButtonElement = document.getElementById('sign-in');
 var signOutButtonElement = document.getElementById('sign-out');
 var signInSnackbarElement = document.getElementById('must-signin-snackbar');
 var annotaion_tool = document.getElementById('annotaion_tool');
+var dashboardButtonElement = document.getElementById('dashboard');
 
 signOutButtonElement.addEventListener('click', signOut);
 signInButtonElement.addEventListener('click', signIn);
