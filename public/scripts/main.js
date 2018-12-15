@@ -63,16 +63,17 @@ function authStateObserver(user) {
     userPicElement.removeAttribute('hidden');
     signOutButtonElement.removeAttribute('hidden');
     annotaion_tool.removeAttribute('hidden')
+    dashboardButtonElement.removeAttribute('hidden')
 
     // Hide sign-in button.
     signInButtonElement.setAttribute('hidden', 'true');
-
   } else { // User is signed out!
     // Hide user's profile and sign-out button.
     userNameElement.setAttribute('hidden', 'true');
     userPicElement.setAttribute('hidden', 'true');
     signOutButtonElement.setAttribute('hidden', 'true');
     annotaion_tool.setAttribute('hidden','true');
+    dashboardButtonElement.setAttribute('hidden','true')
 
     // Show sign-in button.
     signInButtonElement.removeAttribute('hidden');
@@ -130,16 +131,35 @@ function saveImageMessage(file,filename) {
 // Checks that Firebase has been imported.
 checkSetup();
 
+function display_dashboard(){
+  annotaion_tool.setAttribute('hidden',true)
+  annotaion_dashboardDiv.removeAttribute('hidden')
+  navbar_annotaion_tool.removeAttribute('hidden')
+}
+
+function display_annotation_tool(){
+  annotaion_tool.removeAttribute('hidden')
+  annotaion_dashboardDiv.setAttribute('hidden',true)
+  navbar_annotaion_tool.setAttribute('hidden',true)
+}
+
 var userPicElement = document.getElementById('user-pic');
 var userNameElement = document.getElementById('user-name');
 var signInButtonElement = document.getElementById('sign-in');
 var signOutButtonElement = document.getElementById('sign-out');
 var signInSnackbarElement = document.getElementById('must-signin-snackbar');
 var annotaion_tool = document.getElementById('annotaion_tool');
-var dashboardButtonElement = document.getElementById('dashboard');
+
+var dashboardButtonElement = document.getElementById('sign-dashboard');
+var annotaion_dashboardDiv = document.getElementById('annotaion_dashboard');
+var navbar_annotaion_toolButton = document.getElementById('navbar_annotaion_tool');
 
 signOutButtonElement.addEventListener('click', signOut);
 signInButtonElement.addEventListener('click', signIn);
+dashboardButtonElement.addEventListener('click',display_dashboard)
+navbar_annotaion_toolButton.addEventListener('click',display_annotation_tool)
+
+
 
 // initialize Firebase
 initFirebaseAuth();
