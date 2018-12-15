@@ -98,23 +98,26 @@
       Material icons downloaded from https://material.io/icons
     -->
       <div hidden id="annotaion_dashboard">
-        <h1>Dashboard</h1>
+      <center><h1>Dashboard</h1></center>
         <!-- TODO: fetch current user data. show it in a table form  -->
-        <div id="table_users_annotation">
-     <span id="message-filler"></span>
-   </div>
-
-        <!-- <table class="table thead-dark">
+        <!-- <div id="table_users_annotation">
+         <span id="message-filler"></span>
+        </div> -->
+        <center>
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="margin-bottom:40px">
           <thead>
             <tr>
-              <th scope="col">username </th>
-              <th scope="col">storage URI</th>
-              <th scope="col">date and time </th>
+              <th class="mdl-data-table__cell--non-numeric">Name</th>
+              <th>Storage URI</th>
+              <th>date and time</th>
             </tr>
           </thead>
           <tbody id="table_users_annotation">
+
           </tbody>
-        </table> -->
+        </table>
+        </center>
+
       </div>
 
       <div hidden id="annotaion_tool" style="margin-top:0px">

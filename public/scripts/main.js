@@ -125,33 +125,34 @@ function saveImageMessage(file,filename) {
 checkSetup();
 
 function display_dashboard(){
-  annotaion_tool.setAttribute('hidden',true)
-  annotaion_dashboardDiv.removeAttribute('hidden')
-  navbar_annotaion_tool.removeAttribute('hidden')
+  annotaion_tool.setAttribute('hidden',true);
+  annotaion_dashboardDiv.removeAttribute('hidden');
+  navbar_annotaion_tool.removeAttribute('hidden');
+  dashboardButtonElement.setAttribute('hidden',true);
   loadImages();
 }
 
 function display_annotation_tool(){
-  annotaion_tool.removeAttribute('hidden')
-  annotaion_dashboardDiv.setAttribute('hidden',true)
-  navbar_annotaion_tool.setAttribute('hidden',true)
+  annotaion_tool.removeAttribute('hidden');
+  annotaion_dashboardDiv.setAttribute('hidden',true);
+  navbar_annotaion_tool.setAttribute('hidden',true);
+  dashboardButtonElement.removeAttribute('hidden');
+
 }
 
 //displayImage(snap.key, data.name, data.date_of_saving, data.storageUri, data.imageUrl)
 // Template for messages.
-var IMAGE_TEMPLATE =
-    '<div class="image-container">' +
-      // '<div class="spacing"><div class="pic"></div></div>' +
-      '<div class="name"></div>' +
-      '<div class="storageUri"></div>' +
-      '<div class="date_of_saving"></div>' +
-    '</div>';
 // var IMAGE_TEMPLATE =
-//     '<tr class="image-container">'+
-//       '<td class="name"></td>'+
-//       '<td class="storageUri"></td>'
-//       '<td class="date_of_saving"></td>'+
-//     '</tr>';
+//     '<div class="image-container">' +
+//       // '<div class="spacing"><div class="pic"></div></div>' +
+//       '<div class="name"></div>' +
+//       '<div class="storageUri"></div>' +
+//       '<div class="date_of_saving"></div>' +
+//     '</div>';
+var IMAGE_TEMPLATE =
+      '<td class="name"></td>'+
+      '<td class="storageUri"></td>'+
+      '<td class="date_of_saving"></td>';
 
 // Adds a size to Google Profile pics URLs.
 function addSizeToGoogleProfilePic(url) {
@@ -164,21 +165,23 @@ function addSizeToGoogleProfilePic(url) {
 //displayImage(snap.key, data.name, data.date_of_saving, data.storageUri, data.imageUrl)
 // Displays a Message in the UI.
 function displayImage(key,name,date_of_saving, storageUri, imageUrl) {
-  var div = document.getElementById(key);
+  var tr = document.getElementById(key);
   // If an element for that message does not exists yet we create it.
-  if (!div) {
-    var container = document.createElement('div');
+  if (!tr) {
+    var container = document.createElement('tr');
     container.innerHTML = IMAGE_TEMPLATE;
-    div = container.firstChild;
-    div.setAttribute('id', key);
-    usersAnnotationTableListlements.appendChild(div);
+    // tr = container.firstChild;
+    container.setAttribute('id', key);
+    usersAnnotationTableListlements.appendChild(container);
   }
   // if (picUrl) {
   //   div.querySelector('.pic').style.backgroundImage = 'url(' + addSizeToGoogleProfilePic(picUrl) + ')';
   // }
-  div.querySelector('.name').textContent = name;
-  div.querySelector('.storageUri').textContent = storageUri;
-  div.querySelector('.date_of_saving').textContent = date_of_saving;
+  var tr = document.getElementById(key);
+  tr.querySelector('td.name').textContent = name;
+  tr.querySelector('td.storageUri').textContent = storageUri;
+
+  tr.querySelector('td.date_of_saving').textContent = date_of_saving;
 
   // var messageElement = div.querySelector('.image');
   //
