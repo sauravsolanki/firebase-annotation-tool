@@ -89,27 +89,20 @@ function checkSetup() {
   }
 }
 
-// Loads chat message history and listens for upcoming ones.
-function loadMessages() {
-  // Loads the last 12 messages and listens for new ones.
-  var callback = function(snap) {
-    var data = snap.val();
-    displayMessage(snap.key, data.name, data.text, data.profilePicUrl, data.imageUrl);
-  };
-
-  firebase.database().ref('/images/').limitToLast(12).on('child_added', callback);
-  firebase.database().ref('/images/').limitToLast(12).on('child_changed', callback);
-}
 
 var LOADING_IMAGE_URL = 'https://www.google.com/images/spin-32.gif?a';
+//// TODO: to show loading animation
 // Saves a new message containing an image in Firebase.
 // This method first saves the image in Cloud Storage.
 function saveImageMessage(file,filename) {
+  // var d = new Date();
   // 1 - Add a chat message placeholder (a loading icon) that will ultimately get updated with the shared image.
   firebase.database().ref('/images/').push({
     name: getUserName(),
-    imageUrl: LOADING_IMAGE_URL,
-    profilePicUrl: getProfilePicUrl()
+    // imageUrl: LOADING_IMAGE_URL,
+    profilePicUrl: getProfilePicUrl(),
+    date_of_saving:  ""+new Date(),
+    user_id: firebase.auth().currentUser.uid
   }).then(function(messageRef) {
     // 2 - Upload the image to Cloud Storage.
     var filePath = firebase.auth().currentUser.uid + '/' + messageRef.key + '/' + filename;
@@ -154,12 +147,12 @@ var dashboardButtonElement = document.getElementById('sign-dashboard');
 var annotaion_dashboardDiv = document.getElementById('annotaion_dashboard');
 var navbar_annotaion_toolButton = document.getElementById('navbar_annotaion_tool');
 
+var usersAnnotationTableListlements = document.getElementById('table_users_annotation');
+
 signOutButtonElement.addEventListener('click', signOut);
 signInButtonElement.addEventListener('click', signIn);
 dashboardButtonElement.addEventListener('click',display_dashboard)
 navbar_annotaion_toolButton.addEventListener('click',display_annotation_tool)
-
-
 
 // initialize Firebase
 initFirebaseAuth();
