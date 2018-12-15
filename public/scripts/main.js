@@ -128,6 +128,7 @@ function display_dashboard(){
   annotaion_tool.setAttribute('hidden',true)
   annotaion_dashboardDiv.removeAttribute('hidden')
   navbar_annotaion_tool.removeAttribute('hidden')
+  loadImages();
 }
 
 function display_annotation_tool(){
@@ -135,6 +136,82 @@ function display_annotation_tool(){
   annotaion_dashboardDiv.setAttribute('hidden',true)
   navbar_annotaion_tool.setAttribute('hidden',true)
 }
+
+//displayImage(snap.key, data.name, data.date_of_saving, data.storageUri, data.imageUrl)
+// Template for messages.
+var IMAGE_TEMPLATE =
+    '<div class="image-container">' +
+      // '<div class="spacing"><div class="pic"></div></div>' +
+      '<div class="name"></div>' +
+      '<div class="storageUri"></div>' +
+      '<div class="date_of_saving"></div>' +
+    '</div>';
+// var IMAGE_TEMPLATE =
+//     '<tr class="image-container">'+
+//       '<td class="name"></td>'+
+//       '<td class="storageUri"></td>'
+//       '<td class="date_of_saving"></td>'+
+//     '</tr>';
+
+// Adds a size to Google Profile pics URLs.
+function addSizeToGoogleProfilePic(url) {
+  if (url.indexOf('googleusercontent.com') !== -1 && url.indexOf('?') === -1) {
+    return url + '?sz=150';
+  }
+  return url;
+}
+
+//displayImage(snap.key, data.name, data.date_of_saving, data.storageUri, data.imageUrl)
+// Displays a Message in the UI.
+function displayImage(key,name,date_of_saving, storageUri, imageUrl) {
+  var div = document.getElementById(key);
+  // If an element for that message does not exists yet we create it.
+  if (!div) {
+    var container = document.createElement('div');
+    container.innerHTML = IMAGE_TEMPLATE;
+    div = container.firstChild;
+    div.setAttribute('id', key);
+    usersAnnotationTableListlements.appendChild(div);
+  }
+  // if (picUrl) {
+  //   div.querySelector('.pic').style.backgroundImage = 'url(' + addSizeToGoogleProfilePic(picUrl) + ')';
+  // }
+  div.querySelector('.name').textContent = name;
+  div.querySelector('.storageUri').textContent = storageUri;
+  div.querySelector('.date_of_saving').textContent = date_of_saving;
+
+  // var messageElement = div.querySelector('.image');
+  //
+  // if (imageUrl) { // If the message is an image.
+  //   var image = document.createElement('img');
+  //   image.addEventListener('load', function() {
+  //     messageListElement.scrollTop = messageListElement.scrollHeight;
+  //   });
+  //   image.src = imageUrl + '&' + new Date().getTime();
+  //   messageElement.innerHTML = '';
+  //   messageElement.appendChild(image);
+  // }
+}
+// date_of_saving:
+// imageUrl:
+// name:
+// profilePicUrl:
+// storageUri:
+// user_id:
+
+// displayMessage(key,name,date_of_saving, storageUri, imageUrl)
+// Loads chat message history and listens for upcoming ones.
+function loadImages() {
+  // Loads the last 12 messages and listens for new ones.
+  var callback = function(snap) {
+    var data = snap.val();
+    displayImage(snap.key, data.name, data.date_of_saving, data.storageUri, data.imageUrl);
+  };
+
+  firebase.database().ref('/images/').limitToLast(20).on('child_added', callback);
+  firebase.database().ref('/images/').limitToLast(20).on('child_changed', callback);
+}
+
 
 var userPicElement = document.getElementById('user-pic');
 var userNameElement = document.getElementById('user-name');
