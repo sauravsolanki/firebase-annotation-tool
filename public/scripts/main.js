@@ -25,6 +25,7 @@ function signIn() {
 function signOut() {
   // Sign out of Firebase.
   firebase.auth().signOut();
+  annotaion_dashboardDiv.setAttribute('hidden','true')
 }
 // Initiate Firebase Auth.
 function initFirebaseAuth() {
@@ -151,6 +152,7 @@ function display_annotation_tool(){
 //     '</div>';
 var IMAGE_TEMPLATE =
       '<td class="name"></td>'+
+      '<td class="imageURL"> <a href="" target="_blank">View</a> </td>'+
       '<td class="storageUri"></td>'+
       '<td class="date_of_saving"></td>';
 
@@ -164,7 +166,10 @@ function addSizeToGoogleProfilePic(url) {
 
 //displayImage(snap.key, data.name, data.date_of_saving, data.storageUri, data.imageUrl)
 // Displays a Message in the UI.
-function displayImage(key,name,date_of_saving, storageUri, imageUrl) {
+function displayImage(key,name,date_of_saving, storageUri, imageUrl,user_id) {
+
+  if(user_id==firebase.auth().currentUser.uid){
+
   var tr = document.getElementById(key);
   // If an element for that message does not exists yet we create it.
   if (!tr) {
@@ -179,8 +184,9 @@ function displayImage(key,name,date_of_saving, storageUri, imageUrl) {
   // }
   var tr = document.getElementById(key);
   tr.querySelector('td.name').textContent = name;
+  // tr.querySelectorAll('td.imageURL').textContent = imageUrl;
+   tr.querySelector('td.imageURL > a').href = imageUrl;
   tr.querySelector('td.storageUri').textContent = storageUri;
-
   tr.querySelector('td.date_of_saving').textContent = date_of_saving;
 
   // var messageElement = div.querySelector('.image');
@@ -194,7 +200,7 @@ function displayImage(key,name,date_of_saving, storageUri, imageUrl) {
   //   messageElement.innerHTML = '';
   //   messageElement.appendChild(image);
   // }
-}
+}}
 // date_of_saving:
 // imageUrl:
 // name:
@@ -208,9 +214,9 @@ function loadImages() {
   // Loads the last 12 messages and listens for new ones.
   var callback = function(snap) {
     var data = snap.val();
-    displayImage(snap.key, data.name, data.date_of_saving, data.storageUri, data.imageUrl);
+    displayImage(snap.key, data.name, data.date_of_saving, data.storageUri, data.imageUrl,data.user_id);
   };
-
+// TODO:  Add  per users dashboard
   firebase.database().ref('/images/').limitToLast(20).on('child_added', callback);
   firebase.database().ref('/images/').limitToLast(20).on('child_changed', callback);
 }

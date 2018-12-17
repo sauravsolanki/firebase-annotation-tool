@@ -1133,6 +1133,7 @@
 
     // a.dispatchEvent(event);
     saveImageMessage(data,filename)
+    user_input_default_cancel_handler();
   }
 
   //
